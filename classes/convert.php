@@ -9,11 +9,12 @@ Class Convert {
 	* Check if folder is writable for caching
 	*
 	* Set $cache to FALSE on call to disable caching
+	* $folder is where the cache files will be stored
 	*/
 	
-	public function __construct($cache = TRUE)
+	public function __construct($cache = TRUE, $folder = 'dcf')
 	{
-		$this->cacheFolder = dirname(__FILE__).'/convert/';
+		$this->cacheFolder = ($folder == 'dcf') ? dirname(__FILE__).'/convert/' : $folder;
 	
 		if (is_writable($this->cacheFolder) && $cache == TRUE) {
 			$this->cachable = TRUE;
@@ -29,10 +30,11 @@ Class Convert {
 		* PL0X
 		*/
 		
+		# The filename for a cached file
+		
 		$file = md5($from.$to.date('Ymd')).'.convertcache';
 		
-		# Check the file exists
-
+		# Check if cache file exists and pull rate
 		
 		if ($this->cachable && file_exists($this->cacheFolder.$file)) {
 						

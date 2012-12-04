@@ -4,7 +4,6 @@ require_once 'classes/convert.php';
 
 $convert = new Convert;
 
-$get = $convert->convert(15, 'INR');
+echo $convert->convert(15, 'gbp', 'INR');
 
-print_r($get);
 
