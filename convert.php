@@ -4,6 +4,6 @@ require_once 'classes/convert.php';
 
 $convert = new Convert;
 
-echo $convert->convert(15, 'gbp', 'INR');
+echo $convert->convert(4, 'sdf', 'sdsf');
 
 

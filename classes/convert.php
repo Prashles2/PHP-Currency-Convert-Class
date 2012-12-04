@@ -46,13 +46,25 @@ Class Convert {
 		
 		else {
 			
+			if (strlen($from) !== 3 || strlen($to) !== 3 || !ctype_alpha($from) || !ctype_alpha($to)) {
+				throw new Exception('Invalid currency code - must be exactly 3 letters');
+			}
+			
+			$amount = (float) $amount;
+			
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_URL, "http://rate-exchange.appspot.com/currency?q={$amount}&from={$from}&to={$to}");
 			
 			$response = json_decode(curl_exec($ch), true);
 			
+			if (isset($response['err'])) {
+				throw new Exception('Invalid input');
+			}
+			
 			$return = $response['v'];
+			
+			echo $response; exit;
 			
 			if ($this->cachable) {
 			
