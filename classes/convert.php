@@ -69,7 +69,7 @@ Class Convert {
 	* Set $round to FALSE to return full amount
 	*/
 	
-	public function convert($amount = 1, $from = 'GBP', $to = 'USD', $round = TRUE)
+	public function convert($amount, $from, $to, $round = TRUE)
 	{
 		
 		# Check if cache file exists and pull rate
