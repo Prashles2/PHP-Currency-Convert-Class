@@ -16,8 +16,8 @@ Sample usage in usage.php
   
 ## Methods
 
-__convert()__ - Three parameters, $amount, $fromCurrency and $toCurrency  
-__amount_to()__ - Three parameters, $finalAmount, $fromCurrency, $toCurrency. This will show you how much $fromCurrency you need to get $finalAmount in $toCurrency  
+__convert()__ - Four parameters, $amount, $fromCurrency and $toCurrency and $round. Set $round to FALSE to disable rounding. TRUE by default.
+__amount_to()__ - Four parameters, $finalAmount, $fromCurrency, $toCurrency and $round. This will show you how much $fromCurrency you need to get $finalAmount in $toCurrency. Set $round to FALSE to disable rounding. TRUE by default.  
 __get_rate()__ - Two parameters, $fromCurrency and $toCurrency. Returns the rate.  
 __clear_cache()__ - Deletes all cache files
 

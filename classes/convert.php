@@ -67,9 +67,11 @@ Class Convert {
 	
 	/*
 	* Main function for converting
+	*
+	* Set $round to FALSE to return full amount
 	*/
 	
-	public function convert($amount = 1, $from = 'GBP', $to = 'USD')
+	public function convert($amount = 1, $from = 'GBP', $to = 'USD', $round = TRUE)
 	{
 		
 		# Check if cache file exists and pull rate
@@ -102,7 +104,7 @@ Class Convert {
 		
 		}
 		
-		return abs(round($return, 2));
+		return ($round) ? abs(round($return, 2)) : (abs($return);
 				
 	}
 	
@@ -154,9 +156,11 @@ Class Convert {
 	
 	/*
 	* Calculates amount needed in currency to achieve finish currency
+	*
+	* Set $round to FALSE to get full value
 	*/
 	
-	public function amount_to($finalAmount, $from, $to)
+	public function amount_to($finalAmount, $from, $to, $round = TRUE)
 	{
 		$finalAmount = (float) $finalAmount;
 		
@@ -178,7 +182,7 @@ Class Convert {
 		# Work it out
 		$out = $finalAmount / $rate;
 		
-		return round(abs($out), 2);
+		return ($round) ? abs(round($return, 2)) : (abs($return);
 	}
 	
 	/*
