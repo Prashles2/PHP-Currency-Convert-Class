@@ -1,8 +1,35 @@
 <?php
 
-Class Convert {
+/*
+* PHP Validation Class
+* 
+* The currency rates are fetched and cached for the whole day
+*
+* http://prash.me
+* http://github.com/prashles
+*
+* Uses http://rate-exchange.appspot.com/currency currency API
+* Returns JSON - based on Google's API
+*
+* @author Prash Somaiya
+*/
 
-	private $cachable    = FALSE;
+Class Convert {
+	
+	/*
+	* Constructor sets to TRUE if $cacheFolder is writable
+	*
+	* FALSE by default
+	*/
+	
+	private $cachable = FALSE;
+	
+	/*
+	* The folder where the cache files are stored
+	* 
+	* Set in the constructor. //convert by default
+	*/
+	
 	private $cacheFolder;
 	
 	/*
@@ -10,6 +37,8 @@ Class Convert {
 	*
 	* Set $cache to FALSE on call to disable caching
 	* $folder is where the cache files will be stored
+	*
+	* Set $folder to 'dcf' for the default folder
 	*/
 	
 	public function __construct($cache = TRUE, $folder = 'dcf')
@@ -31,7 +60,7 @@ Class Convert {
 
 		# The filename for a cached file
 		
-		$file = md5($from.$to.date('Ymd')).'.convertcache';
+		$file = md5(strtoupper($from.$to).date('Ymd')).'.convertcache';
 		
 		# Check if cache file exists and pull rate
 
@@ -86,7 +115,7 @@ Class Convert {
 		
 		if ($this->cachable) {
 			
-			$file = md5($from.$to.date('Ymd')).'.convertcache';
+			$file = md5(strtoupper($from.$to).date('Ymd')).'.convertcache';
 			file_put_contents($this->cacheFolder.$file, $response['rate']);
 		
 		}
@@ -125,7 +154,7 @@ Class Convert {
 			
 		}
 		
-		# Check cache
+		# Gets the rate
 		$rate = $this->get_rate($from, $to);
 		
 		# Work it out
@@ -142,7 +171,7 @@ Class Convert {
 	{
 		
 		# Check cache
-		$file = md5($from.$to.date('Ymd'));
+		$file = md5(strtoupper($from.$to).date('Ymd')).'.convertcache';
 		
 		$rate = $this->get_cache($file);
 		
@@ -163,9 +192,14 @@ Class Convert {
 	
 	public function clear_cache()
 	{
-		foreach (glob($this->cacheFolder.'*.convertcache') as $file) {
-			unlink($file);
+		$files = glob($this->cacheFolder.'*.convertcache');
+
+		if (!empty($files)) {
+
+			array_map('unlink', $files);
+			
 		}
+
 	}
 	
 	/*

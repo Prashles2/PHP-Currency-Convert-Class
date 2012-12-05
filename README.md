@@ -1,6 +1,6 @@
 ## Readme
 
-This class will allow you convert currencies and also calculate how much you need in a specific currency to achieve a final amount in another currency.  
+This class will allow you to convert currencies and also calculate how much you need in a specific currency to achieve a final amount in another currency.  
   
 The class supports caching. The files will be cached daily.
 
