@@ -95,7 +95,7 @@ Class Convert {
 		
 		}
 		
-		return $return;
+		return abs(round($return, 2));
 				
 	}
 	
@@ -148,6 +148,12 @@ Class Convert {
 	{
 		$finalAmount = (float) $finalAmount;
 		
+		if ($finalAmount == 0) {
+			
+			return 0;
+			
+		}
+		
 		if (!$this->validate_currency($from, $to)) {
 		
 			throw new Exception('Invalid currency code - must be exactly 3 letters');
@@ -160,7 +166,7 @@ Class Convert {
 		# Work it out
 		$out = $finalAmount / $rate;
 		
-		return $out;
+		return round(abs($out), 2);
 	}
 	
 	/*
