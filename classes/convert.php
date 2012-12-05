@@ -108,13 +108,20 @@ Class Convert {
 	
 	protected function fetch($amount, $from, $to)
 	{
+		$url    = "http://rate-exchange.appspot.com/currency?q={$amount}&from={$from}&to={$to}";
 		$amount = (float) $amount;
-			
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_URL, "http://rate-exchange.appspot.com/currency?q={$amount}&from={$from}&to={$to}");
 		
-		$response = json_decode(curl_exec($ch), true);
+		if (in_array('curl', get_loaded_extensions())) {
+		
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_URL, "http://rate-exchange.appspot.com/currency?q={$amount}&from={$from}&to={$to}");
+			
+			$response = json_decode(curl_exec($ch), true);
+		}
+		else {
+			$response = json_decode(file_get_contents($url), true);
+		}
 		
 		# Caches the rate for future
 		$this->new_cache($from.$to, $response['rate']);
