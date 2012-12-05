@@ -33,21 +33,33 @@ Class Convert {
 	private $cacheFolder;
 	
 	/*
+	* Length of cache in seconds
+	*
+	* Default is 1 day
+	*/
+	
+	private $cacheTimeout = 86400;
+	
+	/*
 	* Check if folder is writable for caching
 	*
 	* Set $cache to FALSE on call to disable caching
 	* $folder is where the cache files will be stored
 	*
 	* Set $folder to 'dcf' for the default folder
+	*
+	* Set $cacheTimeout for length of caching in seconds
 	*/
 	
-	public function __construct($cache = TRUE, $folder = 'dcf')
+	public function __construct($cache = TRUE, $folder = 'dcf', $cacheTimeout = 86400)
 	{
 		$this->cacheFolder = ($folder == 'dcf') ? dirname(__FILE__).'/convert/' : $folder;
 	
-		if (is_writable($this->cacheFolder) && $cache == TRUE) {
-			$this->cachable = TRUE;
-
+		if (is_writable($this->cacheFolder) && $cache == TRUE) { 
+		
+			$this->cachable     = TRUE;
+			$this->cacheTimeout = $cacheTimeout;
+		
 		}
 	}
 	
@@ -57,14 +69,10 @@ Class Convert {
 	
 	public function convert($amount = 1, $from = 'GBP', $to = 'USD')
 	{
-
-		# The filename for a cached file
-		
-		$file = md5(strtoupper($from.$to).date('Ymd')).'.convertcache';
 		
 		# Check if cache file exists and pull rate
 
-		$rate = $this->get_cache($file);
+		$rate = $this->get_cache($from.$to);
 		
 		if ($rate !== FALSE) {
 			
@@ -87,11 +95,8 @@ Class Convert {
 			}
 			
 			$return = $response['v'];
-						
-			if ($this->cachable) {
 			
-				file_put_contents($this->cacheFolder.$file, $response['rate']);
-			}
+			$this->new_cache($from.$to, $response['rate']);
 		
 		}
 		
@@ -113,12 +118,7 @@ Class Convert {
 		
 		$response = json_decode(curl_exec($ch), true);
 		
-		if ($this->cachable) {
-			
-			$file = md5(strtoupper($from.$to).date('Ymd')).'.convertcache';
-			file_put_contents($this->cacheFolder.$file, $response['rate']);
-		
-		}
+		$this->new_cache($from.$to, $response['rate']);
 		
 		return $response;		
 	
@@ -130,9 +130,18 @@ Class Convert {
 	
 	protected function get_cache($file) {
 	
-		if ($this->cachable && file_exists($this->cacheFolder.$file)) {
+		if ($this->cachable && file_exists($this->cacheFolder.strtoupper($file).'.convertcache')) {
 						
-			return file_get_contents($this->cacheFolder.$file);
+			$file = file($this->cacheFolder.$file.'.convertcache');
+			
+			if ($file[0] < (time() - $this->cacheTimeout)) {
+				
+				return FALSE;
+				
+			}
+			
+			return $file[1];
+			
 						
 		}
 		
@@ -177,9 +186,8 @@ Class Convert {
 	{
 		
 		# Check cache
-		$file = md5(strtoupper($from.$to).date('Ymd')).'.convertcache';
 		
-		$rate = $this->get_cache($file);
+		$rate = $this->get_cache($from.$to);
 		
 		if (!$rate) {
 			
@@ -225,6 +233,24 @@ Class Convert {
 		}
 		
 		return TRUE;	
+		
+	}
+	
+	/*
+	* Checks if file is cacheable then creates new file
+	*/
+	
+	protected function new_cache($file, $rate)
+	{
+	
+		if ($this->cachable) {
+			
+			$file = strtoupper($file).'.convertcache';
+			
+			$data = time().PHP_EOL.$rate;
+			file_put_contents($this->cacheFolder.$file, $data);
+			
+		}
 		
 	}
 	
