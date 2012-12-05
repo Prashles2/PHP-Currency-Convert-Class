@@ -182,7 +182,7 @@ Class Convert {
 		# Work it out
 		$out = $finalAmount / $rate;
 		
-		return ($round) ? abs(round($out, 2)) : abs($out);
+		return ($round) ? round($out, 2) : $out;
 	}
 	
 	/*
