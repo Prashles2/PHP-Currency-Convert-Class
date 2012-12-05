@@ -74,7 +74,7 @@ Class Convert {
 	* Fetches data from external API
 	*/
 	
-	public function fetch($amount, $from, $to)
+	protected function fetch($amount, $from, $to)
 	{
 		$amount = (float) $amount;
 			
@@ -99,7 +99,7 @@ Class Convert {
 	* Checks if file is cached then returns rate
 	*/
 	
-	public function get_cache($file) {
+	protected function get_cache($file) {
 	
 		if ($this->cachable && file_exists($this->cacheFolder.$file)) {
 						
@@ -172,7 +172,7 @@ Class Convert {
 	* Validates the currency identifier
 	*/
 	
-	public function validate_currency()
+	protected function validate_currency()
 	{
 		foreach (func_get_args() as $val) {
 		

@@ -4,8 +4,10 @@ require_once 'classes/convert.php';
 
 $convert = new Convert;
 
-//echo $convert->convert(15, 'USD', 'INR');
+# Convert 15 USD to GBP
+echo $convert->convert(15, 'USD', 'GBP');
 
+# Displays how much USD you need to get 100 INR
 echo $convert->amount_to(100, 'USD', 'INR');
 
 
