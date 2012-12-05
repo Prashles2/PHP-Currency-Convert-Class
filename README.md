@@ -9,7 +9,7 @@ The class supports caching. The files will be cached daily.
 Call the class. There are three optional parameters:  
   
 __$cache__ - Set this to FALSE if you do not want to enabled cachine (TRUE by default)  
-__$cacheFolder__ Set your cache folder. By default, it is /classes/convert 
+__$cacheFolder__ Set your cache folder. By default, it is /classes/convert  
 __$cacheTimeout__ Set the amount of time the rates are cached for (in seconds), set to 1 day by default  
 
 Sample usage in usage.php
