@@ -218,8 +218,10 @@ Class Convert {
 	protected function validate_currency()
 	{
 		foreach (func_get_args() as $val) {		
-			if (strlen($val) !== 3 || !ctype_alpha($val)) {			
-				return FALSE;				
+			if (strlen($val) !== 3 || !ctype_alpha($val)) {
+				if (strtoupper($val) != 'BEAC') {			
+					return FALSE;				
+				}
 			}
 		}
 		
