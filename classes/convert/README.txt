@@ -1,0 +1,1 @@
+This is where the cache files are stored. Feel free to delete them at your leisure. Caching will only work if this folder has the correct permissions set.
