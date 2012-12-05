@@ -57,11 +57,9 @@ Class Convert {
 	{
 		$this->cacheFolder = ($folder == 'dcf') ? dirname(__FILE__).'/convert/' : $folder;
 	
-		if (is_writable($this->cacheFolder) && $cache == TRUE) { 
-		
+		if (is_writable($this->cacheFolder) && $cache == TRUE) { 		
 			$this->cachable     = TRUE;
-			$this->cacheTimeout = $cacheTimeout;
-		
+			$this->cacheTimeout = $cacheTimeout;		
 		}
 	}
 	
@@ -78,18 +76,14 @@ Class Convert {
 
 		$rate = $this->get_cache($from.$to);
 		
-		if ($rate !== FALSE) {
-			
-			$return = $rate * $amount;
-			
+		if ($rate !== FALSE) {			
+			$return = $rate * $amount;			
 		}
 		
 		else {
 			
 			if (!$this->validate_currency($to, $from)) {
-				
-				throw new Exception('Invalid currency code - must be exactly 3 letters');
-				
+				throw new Exception('Invalid currency code - must be exactly 3 letters');				
 			}
 			
 			$response = $this->fetch($amount, $from, $to);
@@ -135,19 +129,14 @@ Class Convert {
 	
 	protected function get_cache($file) {
 	
-		if ($this->cachable && file_exists($this->cacheFolder.strtoupper($file).'.convertcache')) {
-						
+		if ($this->cachable && file_exists($this->cacheFolder.strtoupper($file).'.convertcache')) {				
 			$file = file($this->cacheFolder.$file.'.convertcache');
 			
-			if ($file[0] < (time() - $this->cacheTimeout)) {
-				
-				return FALSE;
-				
+			if ($file[0] < (time() - $this->cacheTimeout)) {	
+				return FALSE;				
 			}
 			
-			return $file[1];
-			
-						
+			return $file[1];						
 		}
 		
 		return FALSE;
@@ -164,16 +153,12 @@ Class Convert {
 	{
 		$finalAmount = (float) $finalAmount;
 		
-		if ($finalAmount == 0) {
-			
+		if ($finalAmount == 0) {			
 			return 0;
-			
 		}
 		
-		if (!$this->validate_currency($from, $to)) {
-		
-			throw new Exception('Invalid currency code - must be exactly 3 letters');
-			
+		if (!$this->validate_currency($from, $to)) {		
+			throw new Exception('Invalid currency code - must be exactly 3 letters');			
 		}
 		
 		# Gets the rate
@@ -196,11 +181,9 @@ Class Convert {
 		
 		$rate = $this->get_cache($from.$to);
 		
-		if (!$rate) {
-			
+		if (!$rate) {			
 			$rate = $this->fetch(1, $from, $to);
-			$rate = $rate['rate'];
-			
+			$rate = $rate['rate'];			
 		}
 		
 		return $rate;
@@ -216,9 +199,7 @@ Class Convert {
 		$files = glob($this->cacheFolder.'*.convertcache');
 
 		if (!empty($files)) {
-
-			array_map('unlink', $files);
-			
+			array_map('unlink', $files);			
 		}
 
 	}
@@ -229,14 +210,10 @@ Class Convert {
 	
 	protected function validate_currency()
 	{
-		foreach (func_get_args() as $val) {
-		
-			if (strlen($val) !== 3 || !ctype_alpha($val)) {
-			
-				return FALSE;
-				
+		foreach (func_get_args() as $val) {		
+			if (strlen($val) !== 3 || !ctype_alpha($val)) {			
+				return FALSE;				
 			}
-
 		}
 		
 		return TRUE;	
@@ -250,13 +227,11 @@ Class Convert {
 	protected function new_cache($file, $rate)
 	{
 	
-		if ($this->cachable) {
-			
+		if ($this->cachable) {			
 			$file = strtoupper($file).'.convertcache';
 			
 			$data = time().PHP_EOL.$rate;
-			file_put_contents($this->cacheFolder.$file, $data);
-			
+			file_put_contents($this->cacheFolder.$file, $data);			
 		}
 		
 	}
