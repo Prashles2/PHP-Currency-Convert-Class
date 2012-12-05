@@ -9,16 +9,16 @@ The class supports caching. The files will be cached daily.
 Call the class. There are three optional parameters:  
   
 __$cache__ - Set this to FALSE if you do not want to enabled cachine (TRUE by default)  
-__$cacheFolder__ Set your cache folder. By default, it is /classes/convert  
-__$cacheTimeout__ Set the amount of time the rates are cached for (in seconds), set to 1 day by default  
+__$cacheFolder__ - Set your cache folder. By default, it is /classes/convert  
+__$cacheTimeout__ - Set the amount of time the rates are cached for (in seconds), set to 1 day by default  
 
 Sample usage in usage.php
   
 ## Methods
 
-__convert()__ - Four parameters, $amount, $fromCurrency and $toCurrency and $round. Set $round to FALSE to disable rounding. TRUE by default.
-__amount_to()__ - Four parameters, $finalAmount, $fromCurrency, $toCurrency and $round. This will show you how much $fromCurrency you need to get $finalAmount in $toCurrency. Set $round to FALSE to disable rounding. TRUE by default.  
+__convert()__ - Four parameters, $amount, $fromCurrency and $toCurrency and $round. Set $round to FALSE to disable rounding. TRUE by default.  
+__amount_to()__ - Four parameters, $finalAmount, $fromCurrency, $toCurrency and $round. This will show you how much $fromCurrency you need to get $finalAmoun in $toCurrency. Set $round to FALSE to disable rounding. TRUE by default.    
 __get_rate()__ - Two parameters, $fromCurrency and $toCurrency. Returns the rate.  
-__clear_cache()__ - Deletes all cache files
+__clear_cache()__ - Deletes all cache files  
 
 
