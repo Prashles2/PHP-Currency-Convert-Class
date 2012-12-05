@@ -5,7 +5,7 @@ require_once 'classes/convert.php';
 $convert = new Convert;
 
 # Convert 15 USD to GBP
-echo $convert->convert(15, 'USD', 'GBP');
+echo $convert->convert(10, 'USD', 'GBP');
 
 echo '<br/>';
 

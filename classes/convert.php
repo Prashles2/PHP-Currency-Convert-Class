@@ -1,6 +1,7 @@
 <?php
 
 /*
+*
 * PHP Validation Class
 * 
 * The currency rates are fetched and cached for the whole day
@@ -12,6 +13,7 @@
 * Returns JSON - based on Google's API
 *
 * @author Prash Somaiya
+*
 */
 
 Class Convert {
@@ -38,7 +40,7 @@ Class Convert {
 	* Default is 1 day
 	*/
 	
-	private $cacheTimeout = 86400;
+	private $cacheTimeout;
 	
 	/*
 	* Check if folder is writable for caching
@@ -118,6 +120,7 @@ Class Convert {
 		
 		$response = json_decode(curl_exec($ch), true);
 		
+		# Caches the rate for future
 		$this->new_cache($from.$to, $response['rate']);
 		
 		return $response;		
