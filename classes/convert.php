@@ -2,7 +2,7 @@
 
 /*
 *
-* PHP Validation Class
+* PHP Currency Conversion Class
 * 
 * The currency rates are fetched and cached for the whole day
 *
