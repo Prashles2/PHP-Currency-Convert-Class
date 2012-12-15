@@ -10,4 +10,4 @@ echo $convert->convert(10, 'USD', 'GBP');
 echo '<br/>';
 
 # Displays how much USD you need to get 100 INR - won't show the rounded value
-echo $convert->amount_to(100, 'USD', 'INR', FALSE);
+echo $convert->amountTo(100, 'USD', 'INR', FALSE);

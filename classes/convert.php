@@ -74,7 +74,7 @@ Class Convert {
 		
 		# Check if cache file exists and pull rate
 
-		$rate = $this->get_cache($from.$to);
+		$rate = $this->getCache($from.$to);
 		
 		if ($rate !== FALSE) {			
 			$return = $rate * $amount;			
@@ -82,7 +82,7 @@ Class Convert {
 		
 		else {
 			
-			if (!$this->validate_currency($to, $from)) {
+			if (!$this->validateCurrency($to, $from)) {
 				throw new Exception('Invalid currency code - must be exactly 3 letters');				
 			}
 			
@@ -94,7 +94,7 @@ Class Convert {
 			
 			$return = $response['v'];
 			
-			$this->new_cache($from.$to, $response['rate']);
+			$this->newCache($from.$to, $response['rate']);
 		
 		}
 		
@@ -124,7 +124,7 @@ Class Convert {
 		}
 		
 		# Caches the rate for future
-		$this->new_cache($from.$to, $response['rate']);
+		$this->newCache($from.$to, $response['rate']);
 		
 		return $response;		
 	
@@ -134,7 +134,7 @@ Class Convert {
 	* Checks if file is cached then returns rate
 	*/
 	
-	protected function get_cache($file) {
+	protected function getCache($file) {
 	
 		if ($this->cachable && file_exists($this->cacheFolder.strtoupper($file).'.convertcache')) {				
 			$file = file($this->cacheFolder.$file.'.convertcache');
@@ -156,7 +156,7 @@ Class Convert {
 	* Set $round to FALSE to get full value
 	*/
 	
-	public function amount_to($finalAmount, $from, $to, $round = TRUE)
+	public function amountTo($finalAmount, $from, $to, $round = TRUE)
 	{
 		$finalAmount = (float) $finalAmount;
 		
@@ -164,12 +164,12 @@ Class Convert {
 			return 0;
 		}
 		
-		if (!$this->validate_currency($from, $to)) {		
+		if (!$this->validateCurrency($from, $to)) {		
 			throw new Exception('Invalid currency code - must be exactly 3 letters');			
 		}
 		
 		# Gets the rate
-		$rate = $this->get_rate($from, $to);
+		$rate = $this->getRate($from, $to);
 		
 		# Work it out
 		$out = $finalAmount / $rate;
@@ -181,12 +181,12 @@ Class Convert {
 	* Returns rate of two currencies
 	*/
 	
-	public function get_rate($from = 'GBP', $to = 'USD')
+	public function getRate($from = 'GBP', $to = 'USD')
 	{
 		
 		# Check cache
 		
-		$rate = $this->get_cache($from.$to);
+		$rate = $this->getCache($from.$to);
 		
 		if (!$rate) {			
 			$rate = $this->fetch(1, $from, $to);
@@ -201,7 +201,7 @@ Class Convert {
 	* Deletes all .convertcache files in cache folder
 	*/
 	
-	public function clear_cache()
+	public function clearCache()
 	{
 		$files = glob($this->cacheFolder.'*.convertcache');
 
@@ -215,7 +215,7 @@ Class Convert {
 	* Validates the currency identifier
 	*/
 	
-	protected function validate_currency()
+	protected function validateCurrency()
 	{
 		foreach (func_get_args() as $val) {		
 			if (strlen($val) !== 3 || !ctype_alpha($val)) {
@@ -233,7 +233,7 @@ Class Convert {
 	* Checks if file is cacheable then creates new file
 	*/
 	
-	protected function new_cache($file, $rate)
+	protected function newCache($file, $rate)
 	{
 	
 		if ($this->cachable) {			
