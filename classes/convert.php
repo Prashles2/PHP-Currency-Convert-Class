@@ -37,7 +37,7 @@ Class Convert {
 	/*
 	* Length of cache in seconds
 	*
-	* Default is 1 day
+	* Default is 2 hours
 	*/
 	
 	private $cacheTimeout;
@@ -53,7 +53,7 @@ Class Convert {
 	* Set $cacheTimeout for length of caching in seconds
 	*/
 	
-	public function __construct($cache = TRUE, $folder = 'dcf', $cacheTimeout = 86400)
+	public function __construct($cache = TRUE, $folder = 'dcf', $cacheTimeout = 7200)
 	{
 		$this->cacheFolder = ($folder == 'dcf') ? dirname(__FILE__).'/convert/' : $folder;
 	
