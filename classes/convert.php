@@ -125,7 +125,16 @@ Class Convert {
 		$amount = (float) $amount;
 		$url    = "http://jsonrates.com/get/?amount={$amount}&from={$from}&to={$to}&apiKey={$apiKey}";
 		
-		$response = json_decode(file_get_contents($url), true);
+		if (in_array('curl', get_loaded_extensions())) {		
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_URL, $url);
+			
+			$response = json_decode(curl_exec($ch), true);
+		}
+		else {
+			$response = json_decode(file_get_contents($url), true);
+		}
 		
 		# Caches the rate for future
 		$this->newCache($from.$to, $response['amount']);
