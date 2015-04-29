@@ -6,6 +6,8 @@ The class supports caching. The files will be cached daily.
 
 ## Usage
 
+__Set your API Key__, which can be taken from the http://jsonrates.com for free.
+
 Call the class. There are three optional parameters:  
   
 __$cache__ - Set this to FALSE if you do not want to enabled cachine (TRUE by default)  
