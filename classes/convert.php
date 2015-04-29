@@ -17,6 +17,11 @@
 */
 
 Class Convert {
+
+	/*
+	* This version of script uses the jsonrates.com API, because Google's API is out of date.
+	*/
+	private $jsonRatesAPI = "xxxxxxxxxxxxxxxxxxxxxx";
 	
 	/*
 	* Constructor sets to TRUE if $cacheFolder is writable
@@ -98,7 +103,15 @@ Class Convert {
 		
 		}
 		
-		return ($round) ? abs(round($return, 2)) : abs($return);
+		$result = ($round) ? abs(round($return, 2)) : abs($return);
+
+		# After first script run result is equals zero
+		# check it and get new result
+		if($result == 0) {
+			$result = $this->convert($amount, $from, $to, $round);
+		}
+		
+		return $result;
 				
 	}
 	
@@ -107,15 +120,15 @@ Class Convert {
 	*/
 	
 	protected function fetch($amount, $from, $to)
-	{
-		$url    = "http://rate-exchange.appspot.com/currency?q={$amount}&from={$from}&to={$to}";
+	{	
+		$apiKey = $this->jsonRatesAPI;
 		$amount = (float) $amount;
+		$url    = "http://jsonrates.com/get/?amount={$amount}&from={$from}&to={$to}&apiKey={$apiKey}";
 		
-		if (in_array('curl', get_loaded_extensions())) {
-		
+		if (in_array('curl', get_loaded_extensions())) {		
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_URL, "http://rate-exchange.appspot.com/currency?q={$amount}&from={$from}&to={$to}");
+			curl_setopt($ch, CURLOPT_URL, $url);
 			
 			$response = json_decode(curl_exec($ch), true);
 		}
@@ -124,10 +137,9 @@ Class Convert {
 		}
 		
 		# Caches the rate for future
-		$this->newCache($from.$to, $response['rate']);
+		$this->newCache($from.$to, $response['amount']);
 		
-		return $response;		
-	
+		return $response;
 	}
 	
 	/*
