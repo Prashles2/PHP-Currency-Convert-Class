@@ -108,14 +108,14 @@ Class Convert {
 	
 	protected function fetch($amount, $from, $to)
 	{
-		$url    = "http://rate-exchange.appspot.com/currency?q={$amount}&from={$from}&to={$to}";
+		$url    = "https://currency-api.appspot.com/api/{$from}/{$to}.json?amount={$amount}";
 		$amount = (float) $amount;
 		
 		if (in_array('curl', get_loaded_extensions())) {
 		
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_URL, "http://rate-exchange.appspot.com/currency?q={$amount}&from={$from}&to={$to}");
+			curl_setopt($ch, CURLOPT_URL, "https://currency-api.appspot.com/api/{$from}/{$to}.json?amount={$amount}");
 			
 			$response = json_decode(curl_exec($ch), true);
 		}
